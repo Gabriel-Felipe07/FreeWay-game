@@ -44,13 +44,14 @@ class Jogador:
             self.pos_x = 350
 
 class Carros:
-    def __init__(self, width, height, pista, velocidade):
+    def __init__(self, width, height, pista, velocidade, tipo):
         self.width = width
         self.height = height
         self.pista = pista  # Identificador da pista (1, 2, 3, etc.)
         self.velocidade = velocidade  # Velocidade horizontal dos carros
         self.pos_x = 0  # Começam da borda esquerda
         self.pos_y = self.pista
+        self.tipo_carro = tipo
 
     def move_carro(self):
         # O carro vai andando conforme a velocidade descrita
@@ -61,18 +62,18 @@ class Carros:
 
     def cria_carros(self, tela):
         # Desenha o carro na tela com sua posição atualizada
-        carro_img = pygame.image.load("imagens/carro-1.png")  # Ajuste para cada carro
+        carro_img = pygame.image.load(self.tipo_carro)  # Ajuste para cada carro
         carro_img = pygame.transform.rotate(carro_img, 180)
         carro_img = pygame.transform.scale(carro_img, (self.width, self.height))
         tela.blit(carro_img, (self.pos_x, self.pos_y))
 
 # Criando carros
-carros = [Carros(100, 50, 50, 10),  # Carro na pista 1
-          Carros(120, 60, 120, 6),  # Carro na pista 2
-          Carros(110, 55, 190, 7),
-          Carros(110, 55, 260, 15),
-          Carros(110, 55, 330, 5),
-          Carros(110, 55, 400, 9)]  # Carro na pista 3
+carros = [Carros(100, 50, 50, 10, "imagens/carro-1.png"),  # Carro na pista 1
+          Carros(120, 60, 120, 6, "imagens/carro-2.png"),  # Carro na pista 2
+          Carros(110, 55, 190, 7, "imagens/carro-3.png"),  # Carro na pista 3
+          Carros(110, 55, 260, 15, "imagens/carro-1.png"), # Carro na pista 4
+          Carros(110, 55, 330, 5, "imagens/carro-2.png"), # Carro na pista 5
+          Carros(110, 55, 400, 9, "imagens/carro-3.png")] # Carro na pista 6
 
 # Criando janela    
 janela = JanelaPrincipal(800, 500)
