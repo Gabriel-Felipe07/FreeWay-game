@@ -68,12 +68,12 @@ class Carros:
         tela.blit(carro_img, (self.pos_x, self.pos_y))
 
 # Criando carros
-carros = [Carros(100, 50, 50, 10, "imagens/carro-1.png"),  # Carro na pista 1
-          Carros(120, 60, 120, 6, "imagens/carro-2.png"),  # Carro na pista 2
-          Carros(110, 55, 190, 7, "imagens/carro-3.png"),  # Carro na pista 3
-          Carros(110, 55, 260, 15, "imagens/carro-1.png"), # Carro na pista 4
-          Carros(110, 55, 330, 5, "imagens/carro-2.png"), # Carro na pista 5
-          Carros(110, 55, 400, 9, "imagens/carro-3.png")] # Carro na pista 6
+carros = [Carros(100, 50, 40, 10, "imagens/carro-1.png"),  # Carro na pista 1
+          Carros(120, 60, 110, 6, "imagens/carro-2.png"),  # Carro na pista 2
+          Carros(110, 55, 180, 7, "imagens/carro-3.png"),  # Carro na pista 3
+          Carros(110, 55, 250, 15, "imagens/carro-1.png"), # Carro na pista 4
+          Carros(110, 55, 320, 5, "imagens/carro-2.png"), # Carro na pista 5
+          Carros(110, 55, 390, 9, "imagens/carro-3.png")] # Carro na pista 6
 
 # Criando janela    
 janela = JanelaPrincipal(800, 500)
