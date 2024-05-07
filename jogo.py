@@ -53,10 +53,9 @@ class Carros:
         self.pos_y = self.pista
 
     def move_carro(self):
-        # Atualiza a posição horizontal do carro com base na velocidade
+        # O carro vai andando conforme a velocidade descrita
         self.pos_x += self.velocidade
-
-        # Se o carro passar do limite da tela, redefine sua posição para a borda esquerda
+        # Se o carro passar do limite da tela, redefine sua posição para a posição inicial
         if self.pos_x > 800:
             self.pos_x = -self.width
 
@@ -68,9 +67,12 @@ class Carros:
         tela.blit(carro_img, (self.pos_x, self.pos_y))
 
 # Criando carros
-carros = [Carros(100, 50, 50, 2),  # Carro na pista 1
-          Carros(120, 60, 120, 3),  # Carro na pista 2
-          Carros(110, 55, 190, 4)]  # Carro na pista 3
+carros = [Carros(100, 50, 50, 10),  # Carro na pista 1
+          Carros(120, 60, 120, 6),  # Carro na pista 2
+          Carros(110, 55, 190, 7),
+          Carros(110, 55, 260, 15),
+          Carros(110, 55, 330, 5),
+          Carros(110, 55, 400, 9)]  # Carro na pista 3
 
 # Criando janela    
 janela = JanelaPrincipal(800, 500)
@@ -81,6 +83,7 @@ personagem = Jogador(80, 70, 350, 443)
 
 # Clock para regulagem de fps
 clock = pygame.time.Clock()
+
 
 # Loop principal
 rodando = True
@@ -97,6 +100,9 @@ while rodando:
     janela.estrada()
     for carro in carros:
         carro.cria_carros(janela.display)
+
+    personagem.movimentacao_jogador()
+    personagem.cria_jogador(janela.display)
 
     # Atualizar janela
     pygame.display.update()
