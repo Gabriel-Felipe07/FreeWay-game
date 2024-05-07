@@ -7,9 +7,11 @@ class janelaPrincipal:
         self.display = pygame.display.set_mode((self.width, self.height))
     def estrada(self):
         estrada = pygame.image.load("imagens/estrada.png")
+        estrada = pygame.transform.scale(estrada, (self.width, self.height))
         self.display.blit(estrada, (0,0))
     
-janelaPrincipal(800, 500)
+janela = janelaPrincipal(800, 500)
+janela.estrada()
 
 #clock para regulagem de fps
 clock = pygame.time.Clock()
