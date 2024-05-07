@@ -1,6 +1,6 @@
-import pygame 
+import pygame
 
-class janelaPrincipal:
+class JanelaPrincipal:
     def __init__(self, width, height):
         pygame.init()  # Inicializa o pygame
         self.width = width
@@ -12,41 +12,62 @@ class janelaPrincipal:
         estrada = pygame.transform.scale(estrada, (self.width, self.height))
         self.display.blit(estrada, (0,0))
 
-class jogador:
+class Jogador:
     def __init__(self, width, height, pos_x, pos_y):
         self.width = width
         self.height = height
         self.pos_x = pos_x
         self.pos_y = pos_y
-    def criaJogador(self, tela):
+
+    def cria_jogador(self, tela):
         mario = pygame.image.load("imagens/mario.png")
         mario = pygame.transform.scale(mario, (self.width, self.height))
         tela.blit(mario, (self.pos_x, self.pos_y))
-    
+
+    def movimentacao_jogador(self):
+        keys = pygame.key.get_pressed()
+
+        if keys[pygame.K_UP]:
+            self.pos_y -= 5
+        elif keys[pygame.K_DOWN]:
+            self.pos_y += 5
+        elif keys[pygame.K_LEFT]:
+            self.pos_x -= 5
+        elif keys[pygame.K_RIGHT]:
+            self.pos_x += 5
+
 # Criando janela    
-janela = janelaPrincipal(800, 500)
+janela = JanelaPrincipal(800, 500)
 janela.estrada()
 
 # Criando personagem
-personagem = jogador(80, 70,350, 443)
-personagem.criaJogador(janela.display)
+personagem = Jogador(80, 70, 350, 443)
 
 # Clock para regulagem de fps
 clock = pygame.time.Clock()
 
 # Loop principal
 rodando = True
-while rodando:  # A variável "rodando" irá controlar o término do jogo
+while rodando:
     # Tratamento de eventos
     for evento in pygame.event.get():
-        if evento.type == pygame.QUIT:  # Evento que indica o clique no botão de fechar
+        if evento.type == pygame.QUIT:
             rodando = False
-            
-    # Atualizando janela
+
+    # Limpar tela
+    janela.display.fill((0, 0, 0))
+
+    # Movimentação do jogador
+    personagem.movimentacao_jogador()
+
+    # Desenhar objetos
+    janela.estrada()
+    personagem.cria_jogador(janela.display)
+
+    # Atualizar janela
     pygame.display.update()
 
     # Definindo o fps
     clock.tick(60)
 
-# Encerrando o pygame
 pygame.quit()
