@@ -54,8 +54,7 @@ while rodando:
         if evento.type == pygame.QUIT:
             rodando = False
 
-    # Limpar tela
-    janela.display.fill((0, 0, 0))
+
 
     # Movimentação do jogador
     personagem.movimentacao_jogador()
