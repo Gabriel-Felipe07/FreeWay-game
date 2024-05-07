@@ -13,22 +13,23 @@ class janelaPrincipal:
         self.display.blit(estrada, (0,0))
 
 class jogador:
-    def __init__(self, width, height):
+    def __init__(self, width, height, pos_x, pos_y):
         self.width = width
         self.height = height
-        
-    def criaJogador(self, pos_x, pos_y, tela):
+        self.pos_x = pos_x
+        self.pos_y = pos_y
+    def criaJogador(self, tela):
         mario = pygame.image.load("imagens/mario.png")
         mario = pygame.transform.scale(mario, (self.width, self.height))
-        tela.blit(mario, (pos_x, pos_y))
-
+        tela.blit(mario, (self.pos_x, self.pos_y))
+    
 # Criando janela    
 janela = janelaPrincipal(800, 500)
 janela.estrada()
 
 # Criando personagem
-personagem = jogador(80, 70)
-personagem.criaJogador(350, 443, janela.display)
+personagem = jogador(80, 70,350, 443)
+personagem.criaJogador(janela.display)
 
 # Clock para regulagem de fps
 clock = pygame.time.Clock()
