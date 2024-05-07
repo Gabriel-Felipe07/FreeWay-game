@@ -36,6 +36,13 @@ class Jogador:
         elif keys[pygame.K_RIGHT]:
             self.pos_x += 5
 
+        if self.pos_x >= 800 or self.pos_x <= 0:
+            self.pos_x = 350
+            self.pos_y = 443
+        if self.pos_y >= 500 or self.pos_y <= 0:
+            self.pos_y = 443
+            self.pos_x = 350
+
 # Criando janela    
 janela = JanelaPrincipal(800, 500)
 janela.estrada()
@@ -53,7 +60,6 @@ while rodando:
     for evento in pygame.event.get():
         if evento.type == pygame.QUIT:
             rodando = False
-
 
 
     # Movimentação do jogador
