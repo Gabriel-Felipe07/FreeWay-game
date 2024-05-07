@@ -43,6 +43,35 @@ class Jogador:
             self.pos_y = 443
             self.pos_x = 350
 
+class Carros:
+    def __init__(self, width, height, pista, velocidade):
+        self.width = width
+        self.height = height
+        self.pista = pista  # Identificador da pista (1, 2, 3, etc.)
+        self.velocidade = velocidade  # Velocidade horizontal dos carros
+        self.pos_x = 0  # Começam da borda esquerda
+        self.pos_y = self.pista
+
+    def move_carro(self):
+        # Atualiza a posição horizontal do carro com base na velocidade
+        self.pos_x += self.velocidade
+
+        # Se o carro passar do limite da tela, redefine sua posição para a borda esquerda
+        if self.pos_x > 800:
+            self.pos_x = -self.width
+
+    def cria_carros(self, tela):
+        # Desenha o carro na tela com sua posição atualizada
+        carro_img = pygame.image.load("imagens/carro-1.png")  # Ajuste para cada carro
+        carro_img = pygame.transform.rotate(carro_img, 180)
+        carro_img = pygame.transform.scale(carro_img, (self.width, self.height))
+        tela.blit(carro_img, (self.pos_x, self.pos_y))
+
+# Criando carros
+carros = [Carros(100, 50, 50, 2),  # Carro na pista 1
+          Carros(120, 60, 120, 3),  # Carro na pista 2
+          Carros(110, 55, 190, 4)]  # Carro na pista 3
+
 # Criando janela    
 janela = JanelaPrincipal(800, 500)
 janela.estrada()
@@ -56,23 +85,19 @@ clock = pygame.time.Clock()
 # Loop principal
 rodando = True
 while rodando:
-    # Tratamento de eventos
     for evento in pygame.event.get():
         if evento.type == pygame.QUIT:
             rodando = False
 
-
-    # Movimentação do jogador
-    personagem.movimentacao_jogador()
+    # Movimentação dos carros
+    for carro in carros:
+        carro.move_carro()
 
     # Desenhar objetos
     janela.estrada()
-    personagem.cria_jogador(janela.display)
+    for carro in carros:
+        carro.cria_carros(janela.display)
 
     # Atualizar janela
     pygame.display.update()
-
-    # Definindo o fps
     clock.tick(60)
-
-pygame.quit()
