@@ -68,6 +68,17 @@ class Carros:
         carro_img = pygame.transform.scale(carro_img, (self.width, self.height))
         tela.blit(carro_img, (self.pos_x, self.pos_y))
 
+class Colisao:
+    def verifica_colisao(objeto1, objeto2):
+        # Verifica se há colisão entre dois retângulos
+        if (objeto1.pos_x < objeto2.pos_x + objeto2.width and
+            objeto1.pos_x + objeto1.width > objeto2.pos_x and
+            objeto1.pos_y < objeto2.pos_y + objeto2.height and
+            objeto1.pos_y + objeto1.height > objeto2.pos_y):
+            return True
+        else:
+            return False
+
 # Criando carros
 carros = [Carros(100, 50, 40, random.randint(3,15), "imagens/carro-1.png"),  # Carro na pista 1
           Carros(120, 60, 110, random.randint(5,15), "imagens/carro-2.png"),  # Carro na pista 2
@@ -97,6 +108,14 @@ while rodando:
     # Movimentação dos carros
     for carro in carros:
         carro.move_carro()
+
+    # Verifica colisão entre o personagem e os carros
+    for carro in carros:
+        if Colisao.verifica_colisao(personagem, carro):
+            # Ação a ser tomada quando houver colisão
+            # Por exemplo, reiniciar a posição do personagem
+            personagem.pos_x = 350
+            personagem.pos_y = 443
 
     # Desenhar objetos
     janela.estrada()
