@@ -14,28 +14,30 @@ class JanelaPrincipal:
         self.display.blit(estrada, (0,0))
 
 class Jogador:
-    def __init__(self, width, height, pos_x, pos_y):
+    def __init__(self, width, height, pos_x, pos_y, imagem):
         self.width = width
         self.height = height
         self.pos_x = pos_x
         self.pos_y = pos_y
+        self.imagem = pygame.image.load(imagem)
+        self.imagem = pygame.transform.scale(self.imagem, (self.width, self.height))
+
+        self.mascara = pygame.mask.from_surface(self.imagem)
 
     def cria_jogador(self, tela):
-        mario = pygame.image.load("imagens/mario.png")
-        mario = pygame.transform.scale(mario, (self.width, self.height))
-        tela.blit(mario, (self.pos_x, self.pos_y))
+        tela.blit(self.imagem, (self.pos_x, self.pos_y))
 
-    def movimentacao_jogador(self):
+    def movimentacao_jogador(self, velocidade):
         keys = pygame.key.get_pressed()
 
         if keys[pygame.K_UP]:
-            self.pos_y -= 5
+            self.pos_y -= velocidade
         elif keys[pygame.K_DOWN]:
-            self.pos_y += 5
+            self.pos_y += velocidade
         elif keys[pygame.K_LEFT]:
-            self.pos_x -= 5
+            self.pos_x -= velocidade
         elif keys[pygame.K_RIGHT]:
-            self.pos_x += 5
+            self.pos_x += velocidade
 
         if self.pos_x >= 800 or self.pos_x <= 0:
             self.pos_x = 350
@@ -52,7 +54,12 @@ class Carros:
         self.velocidade = velocidade  # Velocidade horizontal dos carros
         self.pos_x = 0  # Começam da borda esquerda
         self.pos_y = self.pista
-        self.tipo_carro = tipo
+        self.imagem = pygame.image.load(tipo)
+        self.imagem = pygame.transform.rotate(self.imagem, 180)
+        self.imagem = pygame.transform.scale(self.imagem, (self.width, self.height))
+
+        self.mascara = pygame.mask.from_surface(self.imagem)
+
 
     def move_carro(self):
         # O carro vai andando conforme a velocidade descrita
@@ -62,22 +69,7 @@ class Carros:
             self.pos_x = -self.width
 
     def cria_carros(self, tela):
-        # Desenha o carro na tela com sua posição atualizada
-        carro_img = pygame.image.load(self.tipo_carro)  # Ajuste para cada carro
-        carro_img = pygame.transform.rotate(carro_img, 180)
-        carro_img = pygame.transform.scale(carro_img, (self.width, self.height))
-        tela.blit(carro_img, (self.pos_x, self.pos_y))
-
-class Colisao:
-    def verifica_colisao(objeto1, objeto2):
-        # Verifica se há colisão entre dois retângulos
-        if (objeto1.pos_x < objeto2.pos_x + objeto2.width and
-            objeto1.pos_x + objeto1.width > objeto2.pos_x and
-            objeto1.pos_y < objeto2.pos_y + objeto2.height and
-            objeto1.pos_y + objeto1.height > objeto2.pos_y):
-            return True
-        else:
-            return False
+        tela.blit(self.imagem, (self.pos_x, self.pos_y))
 
 # Criando carros
 carros = [Carros(100, 50, 40, random.randint(3,15), "imagens/carro-1.png"),  # Carro na pista 1
@@ -92,7 +84,7 @@ janela = JanelaPrincipal(800, 500)
 janela.estrada()
 
 # Criando personagem
-personagem = Jogador(80, 70, 350, 443)
+personagem = Jogador(80, 70, 350, 443, "imagens/mario.png")
 
 # Clock para regulagem de fps
 clock = pygame.time.Clock()
@@ -109,21 +101,18 @@ while rodando:
     for carro in carros:
         carro.move_carro()
 
-    # Verifica colisão entre o personagem e os carros
-    for carro in carros:
-        if Colisao.verifica_colisao(personagem, carro):
-            # Ação a ser tomada quando houver colisão
-            # Por exemplo, reiniciar a posição do personagem
-            personagem.pos_x = 350
-            personagem.pos_y = 443
-
     # Desenhar objetos
     janela.estrada()
     for carro in carros:
         carro.cria_carros(janela.display)
 
-    personagem.movimentacao_jogador()
+    personagem.movimentacao_jogador(6)
     personagem.cria_jogador(janela.display)
+
+    for carro in carros:
+        if personagem.mascara.overlap(carro.mascara,(carro.pos_x - personagem.pos_x, carro.pos_y - personagem.pos_y)):
+            personagem.pos_x = 350
+            personagem.pos_y = 443
 
     # Atualizar janela
     pygame.display.update()
