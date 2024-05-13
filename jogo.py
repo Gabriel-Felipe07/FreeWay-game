@@ -55,11 +55,10 @@ class Jogador:
         elif keys[pygame.K_RIGHT]:#se a tecla para a direita for pressionada
             self.pos_x += velocidade
 
-            #se o personagem passar dos parametros da tela, voltará à posição inicial
         if self.pos_x >= 800 or self.pos_x <= 0:
             self.pos_x = 350
             self.pos_y = 443
-        if self.pos_y >= 500 or self.pos_y <= 0:
+        if self.pos_y >= 500:
             self.pos_y = 443
             self.pos_x = 350
 
@@ -166,8 +165,15 @@ def main():
                 while menu_pontuacao.pontuacao < 0:
                     menu_pontuacao.pontuacao =0
         #verificando condição de ganhar e aumentando pontuação 
-        if personagem.pos_y >= 500:
+        if personagem.pos_y <= 0:
             menu_pontuacao.aumenta_pontuacao()
+                        #se o personagem passar dos parametros da tela, voltará à posição inicial
+            if personagem.pos_x >= 800 or personagem.pos_x <= 0:
+                personagem.pos_x = 350
+                personagem.pos_y = 443
+            if personagem.pos_y >= 500 or personagem.pos_y <= 0:
+                personagem.pos_y = 443
+                personagem.pos_x = 350
 
         # Atualizar e desenhar a pontuação
         menu_pontuacao.atualiza_pontuacao(janela.display)
